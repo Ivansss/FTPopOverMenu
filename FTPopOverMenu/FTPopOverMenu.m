@@ -113,6 +113,7 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
         self.shadowOffsetY = FTDefaultShadowOffsetY;
         self.coverBackgroundColor = FTDefaultBackgroundColor;
         self.imageSize = CGSizeMake(FTDefaultMenuIconSize, FTDefaultMenuIconSize);
+        self.roundedImage = NO;
     }
     return self;
 }
@@ -188,6 +189,12 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
                         }];
         [self.contentView addSubview:self.iconImageView];
     }
+    
+    if (configuration.roundedImage) {
+        self.iconImageView.layer.cornerRadius = imageWidth / 2;
+        self.iconImageView.layer.masksToBounds = YES;
+    }
+    
     self.menuNameLabel.frame = menuNameRect;
     self.menuNameLabel.font = configuration.textFont;
     self.menuNameLabel.textColor = configuration.textColor;
