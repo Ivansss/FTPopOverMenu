@@ -64,6 +64,7 @@ typedef void (^FTPopOverMenuDismissBlock)(void);
 @property (nonatomic, strong) UIColor *coverBackgroundColor;
 @property (nonatomic, assign) CGSize imageSize;
 @property (nonatomic, assign) BOOL roundedImage;
+@property (nonatomic, assign) BOOL defaultSelection;
 
 /**
  *  defaultConfiguration

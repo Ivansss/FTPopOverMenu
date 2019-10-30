@@ -115,6 +115,7 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
         self.coverBackgroundColor = FTDefaultBackgroundColor;
         self.imageSize = CGSizeMake(FTDefaultMenuIconSize, FTDefaultMenuIconSize);
         self.roundedImage = NO;
+        self.defaultSelection = NO;
     }
     return self;
 }
@@ -142,8 +143,10 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.bounds];
-        self.selectedBackgroundView.backgroundColor = configuration.selectedCellBackgroundColor;
+        if (!configuration.defaultSelection) {
+            self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.bounds];
+            self.selectedBackgroundView.backgroundColor = configuration.selectedCellBackgroundColor;
+        }
         [self setupWithMenuName:menuName menuImage:menuImage selected:selected accessoryView:accessoryView configuration:configuration];
     }
     return self;
@@ -206,7 +209,7 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
     
     self.accessoryView = accessoryView;
 
-    if (selected) {
+    if (selected && !configuration.defaultSelection) {
         self.menuNameLabel.textColor = configuration.selectedTextColor;
         self.backgroundColor = configuration.selectedCellBackgroundColor;
     }
