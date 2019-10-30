@@ -42,6 +42,8 @@ typedef void (^FTPopOverMenuDismissBlock)(void);
 @property (nonatomic, assign) CGFloat menuIconMargin;// Default is 6.
 @property (nonatomic, assign) CGFloat menuRowHeight;
 @property (nonatomic, assign) CGFloat menuWidth;
+@property (nonatomic, assign) CGFloat menuMaxWidth;
+@property (nonatomic, assign) BOOL autoMenuWidth;
 @property (nonatomic, assign) CGFloat menuCornerRadius;
 @property (nonatomic, strong) UIColor *textColor;
 @property (nonatomic, strong) UIColor *backgroundColor;

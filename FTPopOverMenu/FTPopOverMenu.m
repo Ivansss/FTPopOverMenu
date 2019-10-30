@@ -25,6 +25,7 @@
 #define FTDefaultSeparatorColor             [UIColor grayColor]
 #define FTDefaultMenuFont                   [UIFont systemFontOfSize:14.f]
 #define FTDefaultMenuWidth                  120.f
+#define FTDefaultMenuMaxWidth               300.f
 #define FTDefaultMenuIconSize               24.f
 #define FTDefaultMenuRowHeight              40.f
 #define FTDefaultMenuBorderWidth            0.8
@@ -91,6 +92,8 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
     if (self) {
         self.menuRowHeight = FTDefaultMenuRowHeight;
         self.menuWidth = FTDefaultMenuWidth;
+        self.menuMaxWidth = FTDefaultMenuMaxWidth;
+        self.autoMenuWidth = NO;
         self.menuCornerRadius = FTDefaultMenuCornerRadius;
         self.textColor = FTDefaultTextColor;
         self.textFont = FTDefaultMenuFont;
@@ -709,8 +712,33 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
         self.doneBlock = doneBlock;
         self.dismissBlock = dismissBlock;
         
+        if (config.autoMenuWidth) {
+            [self adjustMenuWidth];
+        }
+        
         [self adjustPopOverMenu];
     });
+}
+
+- (void)adjustMenuWidth {
+    CGFloat adjustedWidth = 0;
+    for (id object in self.menuArray) {
+        if ([object isKindOfClass:[FTPopOverMenuModel class]]) {
+            FTPopOverMenuModel *model = object;
+            CGFloat width = [model.title sizeWithAttributes:@{NSFontAttributeName: self.config.textFont}].width;
+            if (model.image) {
+                width += self.config.imageSize.width + (2 * self.config.menuIconMargin) + (2 * self.config.menuTextMargin);
+            }
+            if (model.accessoryView) {
+                width += self.config.imageSize.width + (2 * self.config.menuIconMargin); // accessory view width estimation
+            }
+            adjustedWidth = (width > adjustedWidth) ? width : adjustedWidth;
+        }else{
+            adjustedWidth = self.config.menuWidth;
+        }
+    }
+    
+    self.config.menuWidth = (adjustedWidth < self.config.menuMaxWidth) ? adjustedWidth : self.config.menuMaxWidth;
 }
 
 - (void)adjustPopOverMenu {
