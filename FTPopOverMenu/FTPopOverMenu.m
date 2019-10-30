@@ -127,7 +127,6 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
 @interface FTPopOverMenuCell ()
 
 @property (nonatomic, strong) UIImageView *iconImageView;
-@property (nonatomic, strong) UILabel *menuNameLabel;
 
 @end
 
@@ -161,14 +160,6 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
     return _iconImageView;
 }
 
-- (UILabel *)menuNameLabel {
-    if (!_menuNameLabel) {
-        _menuNameLabel = [[UILabel alloc]initWithFrame:CGRectZero];
-        _menuNameLabel.backgroundColor = [UIColor clearColor];
-    }
-    return _menuNameLabel;
-}
-
 - (void)setupWithMenuName:(NSString *)menuName menuImage:(id)menuImage selected:(BOOL)selected accessoryView:(UIView *)accessoryView configuration:(FTPopOverMenuConfiguration *)configuration {
     CGFloat imageWidth = configuration.imageSize.width;
     CGFloat imageHeight = configuration.imageSize.height;
@@ -200,17 +191,17 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
         self.iconImageView.layer.masksToBounds = YES;
     }
     
-    self.menuNameLabel.frame = menuNameRect;
-    self.menuNameLabel.font = configuration.textFont;
-    self.menuNameLabel.textColor = configuration.textColor;
-    self.menuNameLabel.textAlignment = configuration.textAlignment;
-    self.menuNameLabel.text = menuName;
-    [self.contentView addSubview:self.menuNameLabel];
+    self.textLabel.font = configuration.textFont;
+    self.textLabel.textColor = configuration.textColor;
+    self.textLabel.textAlignment = configuration.textAlignment;
+    self.textLabel.text = menuName;
     
     self.accessoryView = accessoryView;
+    
+    self.separatorInset = configuration.separatorInset;
 
     if (selected && !configuration.defaultSelection) {
-        self.menuNameLabel.textColor = configuration.selectedTextColor;
+        self.textLabel.textColor = configuration.selectedTextColor;
         self.backgroundColor = configuration.selectedCellBackgroundColor;
     }
 }
@@ -502,11 +493,6 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
                                                                  selected:selected
                                                             accessoryView:accessoryView
                                                             configuration:self.config];
-    if (indexPath.row == _menuStringArray.count-1) {
-        menuCell.separatorInset = UIEdgeInsetsMake(0, self.bounds.size.width, 0, 0);
-    }else{
-        menuCell.separatorInset = self.config.separatorInset;
-    }
     return menuCell;
 }
 
