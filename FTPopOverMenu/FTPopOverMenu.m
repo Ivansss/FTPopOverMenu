@@ -60,12 +60,13 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
 
 @implementation FTPopOverMenuModel
 
-- (instancetype)initWithTitle:(NSString *)title image:(id)image selected:(BOOL)selected {
+- (instancetype)initWithTitle:(NSString *)title image:(id)image selected:(BOOL)selected accessoryView:(UIView *)accessoryView {
     self = [super init];
     if (self) {
         self.title = title;
         self.image = image;
         self.selected = selected;
+        self.accessoryView = accessoryView;
     }
     return self;
 }
@@ -136,13 +137,14 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
                      menuName:(NSString *)menuName
                     menuImage:(id)menuImage
                      selected:(BOOL)selected
+                accessoryView:(UIView *)accessoryView
                 configuration:(FTPopOverMenuConfiguration *)configuration {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.bounds];
         self.selectedBackgroundView.backgroundColor = configuration.selectedCellBackgroundColor;
-        [self setupWithMenuName:menuName menuImage:menuImage selected:selected configuration:configuration];
+        [self setupWithMenuName:menuName menuImage:menuImage selected:selected accessoryView:accessoryView configuration:configuration];
     }
     return self;
 }
@@ -164,7 +166,7 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
     return _menuNameLabel;
 }
 
-- (void)setupWithMenuName:(NSString *)menuName menuImage:(id)menuImage selected:(BOOL)selected configuration:(FTPopOverMenuConfiguration *)configuration {
+- (void)setupWithMenuName:(NSString *)menuName menuImage:(id)menuImage selected:(BOOL)selected accessoryView:(UIView *)accessoryView configuration:(FTPopOverMenuConfiguration *)configuration {
     CGFloat imageWidth = configuration.imageSize.width;
     CGFloat imageHeight = configuration.imageSize.height;
     CGFloat margin = (configuration.menuRowHeight - imageHeight)/2.f;
@@ -201,6 +203,8 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
     self.menuNameLabel.textAlignment = configuration.textAlignment;
     self.menuNameLabel.text = menuName;
     [self.contentView addSubview:self.menuNameLabel];
+    
+    self.accessoryView = accessoryView;
 
     if (selected) {
         self.menuNameLabel.textColor = configuration.selectedTextColor;
@@ -473,6 +477,7 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     id menuImage;
     BOOL selected = NO;
+    UIView *accessoryView = nil;
     if (indexPath.row < _menuImageArray.count) {
         menuImage = _menuImageArray[indexPath.row];
     }
@@ -482,6 +487,7 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
         title = ((FTPopOverMenuModel *)object).title;
         menuImage = ((FTPopOverMenuModel *)object).image;
         selected = ((FTPopOverMenuModel *)object).selected;
+        accessoryView = ((FTPopOverMenuModel *)object).accessoryView;
     }else{
         title = [NSString stringWithFormat:@"%@", object];
     }
@@ -491,6 +497,7 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
                                                                  menuName:title
                                                                 menuImage:menuImage
                                                                  selected:selected
+                                                            accessoryView:accessoryView
                                                             configuration:self.config];
     if (indexPath.row == _menuStringArray.count-1) {
         menuCell.separatorInset = UIEdgeInsetsMake(0, self.bounds.size.width, 0, 0);

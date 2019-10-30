@@ -27,8 +27,9 @@ typedef void (^FTPopOverMenuDismissBlock)(void);
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) id image;
 @property (nonatomic, assign) BOOL selected;
+@property (nonatomic, strong) UIView *accessoryView;
 
-- (instancetype)initWithTitle:(NSString *)title image:(id)image selected:(BOOL)selected;
+- (instancetype)initWithTitle:(NSString *)title image:(id)image selected:(BOOL)selected accessoryView:(UIView *)accessoryView;
 
 @end
 
