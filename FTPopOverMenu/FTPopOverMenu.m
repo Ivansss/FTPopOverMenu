@@ -333,6 +333,7 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
         _menuTableView.clipsToBounds = YES;
         _menuTableView.delegate = self;
         _menuTableView.dataSource = self;
+        _menuTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _menuTableView.frame.size.width, 1)];
         [self addSubview:_menuTableView];
     }
     return _menuTableView;
