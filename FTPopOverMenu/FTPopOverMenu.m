@@ -61,15 +61,42 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
 
 @implementation FTPopOverMenuModel
 
-- (instancetype)initWithTitle:(NSString *)title image:(id)image selected:(BOOL)selected accessoryView:(UIView *)accessoryView {
+- (instancetype)initWithTitle:(NSString *)title image:(id)image selected:(BOOL)selected accessoryView:(UIView *)accessoryView userInfo:(NSDictionary *)userInfo
+{
     self = [super init];
     if (self) {
         self.title = title;
         self.image = image;
         self.selected = selected;
         self.accessoryView = accessoryView;
+        self.userInfo = userInfo;
     }
     return self;
+}
+
+- (instancetype)initWithTitle:(NSString *)title image:(id)image selected:(BOOL)selected accessoryView:(UIView *)accessoryView
+{
+    return [self initWithTitle:title image:image selected:selected accessoryView:accessoryView userInfo:nil];
+}
+
+- (instancetype)initWithTitle:(NSString *)title image:(id)image accessoryView:(UIView *)accessoryView userInfo:(NSDictionary *)userInfo
+{
+    return [self initWithTitle:title image:image selected:NO accessoryView:accessoryView userInfo:userInfo];
+}
+
+- (instancetype)initWithTitle:(NSString *)title image:(id)image accessoryView:(UIView *)accessoryView
+{
+    return [self initWithTitle:title image:image selected:NO accessoryView:accessoryView userInfo:nil];
+}
+
+- (instancetype)initWithTitle:(NSString *)title image:(id)image userInfo:(NSDictionary *)userInfo
+{
+    return [self initWithTitle:title image:image selected:NO accessoryView:nil userInfo:userInfo];
+}
+
+- (instancetype)initWithTitle:(NSString *)title image:(id)image
+{
+    return [self initWithTitle:title image:image selected:NO accessoryView:nil userInfo:nil];
 }
 
 @end
