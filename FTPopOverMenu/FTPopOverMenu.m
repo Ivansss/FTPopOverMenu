@@ -363,6 +363,7 @@ typedef NS_ENUM(NSUInteger, FTPopOverMenuArrowDirection) {
         _menuTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _menuTableView.frame.size.width, 1)];
         [self addSubview:_menuTableView];
     }
+    [_menuTableView setSemanticContentAttribute:UISemanticContentAttributeForceLeftToRight];
     return _menuTableView;
 }
 
